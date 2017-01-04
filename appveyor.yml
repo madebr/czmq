@@ -72,6 +72,7 @@ after_build:
   - cmd: 7z a -y -bd -mx=9 czmq.zip "%APPVEYOR_BUILD_FOLDER%\src\%CONFIGURATION%\zmakecert.exe" "%APPVEYOR_BUILD_FOLDER%\src\%CONFIGURATION%\czmq_selftest.exe" czmq.dll libsodium.dll libzmq-*.dll
   - ps: Push-AppveyorArtifact "czmq.zip" -Filename "czmq-${env:Platform}-${env:Configuration}.zip"
   - cmd: cd "%CZMQ_BUILDDIR%"
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cmd: ctest -C "%Configuration%" -V
 
 test:
